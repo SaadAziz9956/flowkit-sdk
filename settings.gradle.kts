@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "flowkit-sdk"
 include(":flowkit-core")
 include(":flowkit-network")
+include("samples")
+include(":samples:todo-app-mvi")
