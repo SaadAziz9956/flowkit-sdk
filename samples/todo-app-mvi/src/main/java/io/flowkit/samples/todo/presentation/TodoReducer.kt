@@ -60,7 +60,7 @@ class TodoReducer(
 
         return try {
             val newTodo = Todo(
-                id = System.currentTimeMillis().toString(),
+                id = Clock.System.now().toEpochMilliseconds().toString(),
                 title = intent.title.trim(),
                 description = intent.description.trim()
             )

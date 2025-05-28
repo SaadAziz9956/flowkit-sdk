@@ -87,9 +87,9 @@ mavenPublishing {
         }
 
         scm {
-            connection.set("scm:git:git://github.com/FlowKit-SDK/flowkit-sdk.git")
-            developerConnection.set("scm:git:ssh://github.com/FlowKit-SDK/flowkit-sdk.git")
-            url.set("https://github.com/FlowKit-SDK/flowkit-sdk")
+            connection.set("scm:git:git://github.com/SaadAziz9956/flowkit-sdk.git")
+            developerConnection.set("scm:git:ssh://github.com/SaadAziz9956/flowkit-sdk.git")
+            url.set("https://github.com/SaadAziz9956/flowkit-sdk")
         }
     }
 }

@@ -5,5 +5,5 @@ data class Todo(
     val title: String,
     val description: String,
     val isCompleted: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = Clock.System.now().toEpochMilliseconds()
 )
