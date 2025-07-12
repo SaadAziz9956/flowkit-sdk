@@ -317,8 +317,8 @@ fun KeyValueStorage.preferences(block: StoragePreferenceBuilder.() -> Unit): Sto
  * Storage repository pattern builder
  */
 abstract class StorageRepository(
-    protected val storage: ReactiveStorage,
-    protected val cacheStorage: CacheStorage = DefaultCacheStorage
+    protected open val storage: ReactiveStorage,
+    protected open val cacheStorage: CacheStorage = DefaultCacheStorage
 ) {
 
     /**

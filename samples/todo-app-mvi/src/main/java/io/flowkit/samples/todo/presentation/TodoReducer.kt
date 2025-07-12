@@ -4,6 +4,8 @@ import io.flowkit.core.MviReducer
 import io.flowkit.core.ReducerResult
 import io.flowkit.samples.todo.domain.Todo
 import io.flowkit.samples.todo.domain.repository.TodoRepository
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class TodoReducer(
     private val repository: TodoRepository
@@ -47,6 +49,7 @@ class TodoReducer(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     private suspend fun handleAddTodo(
         currentState: TodoState,
         intent: TodoIntent.AddTodo

@@ -80,7 +80,7 @@ mavenPublishing {
 
     coordinates(
         groupId = "io.flowkit",
-        artifactId = "flowkit-network",
+        artifactId = "network",
         version = project.version.toString()
     )
 

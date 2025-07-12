@@ -22,8 +22,8 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    ).forEach {iosTarget ->
+        iosTarget.binaries.framework {
             baseName = "flowkit-core"
             isStatic = true
         }
@@ -62,7 +62,7 @@ mavenPublishing {
 
     coordinates(
         groupId = "io.flowkit",
-        artifactId = "flowkit-core",
+        artifactId = "core",
         version = project.version.toString()
     )
 

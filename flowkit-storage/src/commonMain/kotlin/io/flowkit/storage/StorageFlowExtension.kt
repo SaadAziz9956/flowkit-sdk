@@ -1,3 +1,4 @@
+@file:OptIn(FlowPreview::class)
 package io.flowkit.storage
 
 import io.flowkit.core.Result
@@ -11,6 +12,7 @@ import io.flowkit.core.isSuccess
 import io.flowkit.core.map
 import io.flowkit.core.onFailure
 import io.flowkit.core.onSuccess
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

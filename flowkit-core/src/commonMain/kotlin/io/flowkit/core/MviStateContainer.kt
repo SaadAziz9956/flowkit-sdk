@@ -159,7 +159,7 @@ class DefaultMviContainerBuilder<State : MviState, Intent : MviIntent, SideEffec
 /**
  * DSL function to create MVI containers with a fluent API
  */
-inline fun <reified State : MviState, reified Intent : MviIntent, reified SideEffect : MviSideEffect>
+fun <State : MviState, Intent : MviIntent, SideEffect : MviSideEffect>
         CoroutineScope.mviContainer(): MviContainerBuilder<State, Intent, SideEffect> {
     return DefaultMviContainerBuilder(this)
 }
@@ -167,7 +167,7 @@ inline fun <reified State : MviState, reified Intent : MviIntent, reified SideEf
 /**
  * Convenience function for creating MVI containers with initial state and reducer
  */
-inline fun <reified State : MviState, reified Intent : MviIntent, reified SideEffect : MviSideEffect>
+fun <State : MviState, Intent : MviIntent, SideEffect : MviSideEffect>
         CoroutineScope.mviContainer(
     initialState: State,
     reducer: MviReducer<State, Intent, SideEffect>,
