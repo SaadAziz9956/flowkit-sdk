@@ -57,6 +57,14 @@ internal class DefaultMviContainer<State : MviState, Intent : MviIntent, SideEff
             .launchIn(scope)
     }
 
+    suspend fun emitSideEffect(sideEffect: SideEffect) {
+        _sideEffects.tryEmit(sideEffect)
+
+        if (enableLogging) {
+            logDirectSideEffect(sideEffect)
+        }
+    }
+
     override suspend fun processIntent(intent: Intent) {
         intentChannel.trySend(intent).onFailure { throwable ->
             logError("Failed to send intent: $intent", throwable)
@@ -64,6 +72,20 @@ internal class DefaultMviContainer<State : MviState, Intent : MviIntent, SideEff
     }
 
     override fun currentState(): State = _state.value
+
+    override suspend fun updateState(transform: (State) -> State) {
+        val currentState = _state.value
+        val newState = transform(currentState)
+
+        // Only update if state actually changed
+        if (newState != currentState) {
+            _state.value = newState
+
+            if (enableLogging) {
+                logDirectStateUpdate(currentState, newState)
+            }
+        }
+    }
 
     private suspend fun processIntentInternal(intent: Intent) {
         try {
@@ -92,6 +114,18 @@ internal class DefaultMviContainer<State : MviState, Intent : MviIntent, SideEff
             logError("Error in reducer for intent: $intent", throwable)
             // Don't crash the app, continue processing other intents
         }
+    }
+
+    private fun logDirectSideEffect(sideEffect: SideEffect) {
+        println("⚡ FlowKit: Direct side effect emitted")
+        println("   Effect: ${sideEffect::class.simpleName}")
+        println("   Bypassed reducer (direct emission)")
+    }
+
+    private fun logDirectStateUpdate(oldState: State, newState: State) {
+        println("🔄 FlowKit: Direct state update")
+        println("   ${oldState::class.simpleName} -> ${newState::class.simpleName}")
+        println("   Bypassed reducer (direct update)")
     }
 
     private fun logIntent(intent: Intent, currentState: State) {

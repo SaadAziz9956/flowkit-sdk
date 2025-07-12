@@ -3,12 +3,22 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.maven.publish)
     alias(libs.plugins.dokka)
+    `maven-publish`
 }
 
 kotlin {
-    // Target platforms
+    // Add JVM target for compatibility
+    jvm {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_1_8)
+                }
+            }
+        }
+    }
+
     androidTarget {
         compilations.all {
             compileTaskProvider.configure {
@@ -17,6 +27,7 @@ kotlin {
                 }
             }
         }
+        publishLibraryVariants("release", "debug")
     }
 
     listOf(
@@ -31,7 +42,6 @@ kotlin {
     }
 
     sourceSets {
-
         commonMain.dependencies {
             api(project(":flowkit-core"))
             api(libs.kotlinx.coroutines.core)
@@ -48,14 +58,15 @@ kotlin {
             implementation(libs.ktor.client.mock)
         }
 
+        jvmMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
             compileOnly(libs.ktor.client.android)
         }
 
-        androidUnitTest.dependencies {
-            implementation(kotlin("test-junit"))
-        }
     }
 }
 
@@ -73,41 +84,38 @@ android {
     }
 }
 
-// Publishing configuration
-mavenPublishing {
-    publishToMavenCentral(automaticRelease = true)
-    signAllPublications()
+publishing {
+    publications {
+        withType<MavenPublication> {
+            groupId = "io.flowkit"
+            version = "0.1.0-SNAPSHOT"
 
-    coordinates(
-        groupId = "io.flowkit",
-        artifactId = "network",
-        version = project.version.toString()
-    )
+            pom {
+                name.set("FlowKit Network")
+                description.set("Network utilities and Flow integrations for FlowKit SDK")
+                url.set("https://github.com/SaadAziz9956/flowkit-sdk")
 
-    pom {
-        name.set("FlowKit Network")
-        description.set("Network utilities and Flow integrations for FlowKit SDK")
-        url.set("https://github.com/SaadAziz9956/flowkit-sdk")
+                licenses {
+                    license {
+                        name.set("Apache License 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
+                }
 
-        licenses {
-            license {
-                name.set("Apache License 2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                developers {
+                    developer {
+                        id.set("flowkit-team")
+                        name.set("FlowKit Team")
+                        email.set("team@flowkit.io")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/SaadAziz9956/flowkit-sdk.git")
+                    developerConnection.set("scm:git:ssh://github.com/SaadAziz9956/flowkit-sdk.git")
+                    url.set("https://github.com/SaadAziz9956/flowkit-sdk")
+                }
             }
-        }
-
-        developers {
-            developer {
-                id.set("flowkit-team")
-                name.set("FlowKit Team")
-                email.set("team@flowkit.io")
-            }
-        }
-
-        scm {
-            connection.set("scm:git:git://github.com/SaadAziz9956/flowkit-sdk.git")
-            developerConnection.set("scm:git:ssh://github.com/SaadAziz9956/flowkit-sdk.git")
-            url.set("https://github.com/SaadAziz9956/flowkit-sdk")
         }
     }
 }

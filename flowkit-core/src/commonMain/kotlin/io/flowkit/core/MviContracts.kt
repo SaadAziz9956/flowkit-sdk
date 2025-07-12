@@ -72,6 +72,8 @@ interface MviContainer<State : MviState, Intent : MviIntent, SideEffect : MviSid
      * Useful for testing and synchronous operations
      */
     fun currentState(): State
+
+    suspend fun updateState(transform: (State) -> State)
 }
 
 /**

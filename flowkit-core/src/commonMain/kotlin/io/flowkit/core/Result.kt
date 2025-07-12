@@ -24,7 +24,7 @@ fun <E, T> Result<E, T>.dataOrNull(): T? = (this as? Result.Success)?.data
 inline fun <E, T, R> Result<E, T>.fold(
     onFailure: (E) -> R,
     onSuccess: (T) -> R,
-    onLoading: () -> R
+    onLoading: () -> R = { Unit as R }
 ): R = when (this) {
     is Result.Error -> onFailure(error)
     is Result.Success -> onSuccess(data)

@@ -55,7 +55,7 @@ val <T> NetworkResult<T>.dataOrNull: T?
 inline fun <T, R> NetworkResult<T>.fold(
     onFailure: (NetworkError) -> R,
     onSuccess: (T) -> R,
-    onLoading: () -> R
+    onLoading: () -> R = { Unit as R }
 ): R = when (this) {
     is Result.Error -> onFailure(error)
     is Result.Success -> onSuccess(data)

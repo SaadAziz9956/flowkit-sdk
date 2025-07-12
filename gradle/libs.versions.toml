@@ -22,6 +22,7 @@ kotlin-test = "1.9.22"
 ksp = "2.1.21-2.0.1"
 kotlinpoet = "1.15.3"
 
+
 [libraries]
 # Coroutines dependencies
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
